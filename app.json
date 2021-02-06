@@ -1,0 +1,12 @@
+{
+  "name": "taskApp",
+  "displayName": "taskApp",
+  "expo": {
+    "name": "taskApp",
+    "slug": "taskApp",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
