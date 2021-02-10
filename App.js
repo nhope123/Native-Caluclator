@@ -9,6 +9,8 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native';
+import { Provider } from 'react-redux';
+import { store } from './redux/store.js';
 
 class Calculator extends Component {
   render(){
@@ -60,7 +62,10 @@ class Calculator extends Component {
 
 export default function App() {
   return (
-    <Calculator />
+    <Provider store={store}>
+      <StatusBar />
+      <Calculator />
+    </Provider>
   )
 }
 
