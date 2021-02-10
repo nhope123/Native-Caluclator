@@ -11,6 +11,16 @@ import {
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './redux/store.js';
+import { calculatorSlice } from './redux/calculatorSlice'
+// import { useSelector, useDispatch } from 'react-redux'
+
+const mapStateToProps = state => ({
+  calculator: state.calculator
+});
+
+const mapDispatchToProps = () => {
+  return { addDigits };
+};
 
 class Calculator extends Component {
   render(){
@@ -19,6 +29,7 @@ class Calculator extends Component {
     const operators = ['C','Del','/','*','-','+'];
     let numberButtons = [];
     let operatorButtons = [];
+
     // Operator buttons
     operators.forEach((item, i) => {
       operatorButtons.push(
@@ -41,7 +52,7 @@ class Calculator extends Component {
     return (
       <View style={styles.container} >
         <View style={[styles.display, styles.rightText]} >
-         <Text>{'123*313.0-1023'}</Text>
+         <Text>{'103*3/342'}</Text>
         </View>
         <View  style={[styles.results, styles.rightText]}><Text>12</Text></View>
         <View  style={styles.buttons}>

@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const calculatorSlice = createSlice({
+export const calculatorSlice = createSlice({
   name: 'calculator',
   initialState: {
-    input: '0',
+    inputs: '0',
     result: 0,
   },
   reducers: {
-    addDigit: state, digit => {
+    addDigit: (state, digit) => {
+      console.log(digit)
       state.input += digit
     }
   }
