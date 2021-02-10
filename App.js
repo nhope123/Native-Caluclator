@@ -36,8 +36,6 @@ class Calculator extends Component {
       numberButtons.push(<View style={styles.numberRows}>{content}</View>);
     });
 
-
-
     return (
       <View style={styles.container} >
         <View style={[styles.display, styles.rightText]} >
@@ -59,8 +57,6 @@ class Calculator extends Component {
     );
   }
 }
-
-
 
 export default function App() {
   return (
