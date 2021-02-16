@@ -1,21 +1,21 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import {Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 
 import styles from './../styles/style.js';
 import { calculatorSlice } from './../redux/calculatorSlice';
 
 // Declare variables
-const operators = ['C','Del','/','*','-','+'];
+const operators = ['C', 'Del', '/', '*', '-', '+'];
 let operatorButtons = [];
 
 class Operators extends Component {
-  render(){
+  render() {
     operators.forEach((item, i) => {
-      let callback = (item === 'C')? this.props.reset:
-          (item === 'Del')? this.props.delete:
-              this.props.addDigit(item);
+      let callback = (item === 'C') ? this.props.reset :
+        (item === 'Del') ? this.props.delete :
+          () => { this.props.addDigit(item) }
       operatorButtons.push(
         <TouchableOpacity
           key={'operators' + i}
@@ -40,8 +40,8 @@ const mapDispatchToProps = (dispatch) => {
     reset: calculatorSlice.actions.clear,
     delete: calculatorSlice.actions.delete,
     addDigit: calculatorSlice.actions.addDigit
-  },dispatch)
+  }, dispatch)
 };
 
 //  Connect the actions to the component with redux connect
-export default connect(null,mapDispatchToProps)( Operators);
+export default connect(null, mapDispatchToProps)(Operators);
