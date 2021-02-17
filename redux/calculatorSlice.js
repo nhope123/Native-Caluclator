@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { store } from './store.js';
-import {validNumber} from './logics.js';
+import {validNumber, putOperator, remove} from './logics.js';
 
 export const calculatorSlice = createSlice({
   name: 'calculator',
@@ -39,36 +39,47 @@ export const calculatorSlice = createSlice({
         state.rawInputs = action.payload[1];
       },
       prepare: (digit) => {
+        console.log('addDigit action');
         return { payload: validNumber(digit)};
       }
     },
     delete: {
       reducer: (state, action) => {
-        state.inputs = action.payload
+        state.inputs = action.payload[0];
+        state.rawInputs = action.payload[1];
       },
       prepare: () => {
-        // BUG: when when we delete period must delete both rawData and display
-        let currentState = store.getState();
-        console.log(currentState);
-        currentState = currentState.inputs.substring(0, currentState.inputs.length - 1);
-        return { payload: (currentState.length < 1) ? '0' : currentState }
+        return {payload: remove()}
       }
     },
-    addOperator:{
-      reducer:(state,action)=>{},
-      preapre:(symbol)=>{
-        /*
-          1) If 2 or more operators are entered consecutively, the operation
-             performed should be the last operator entered (excluding the
-             negative (-) sign). eg [ 5 + * 7 = 35 ( 5 * 7) ] [ 5 * - 5 = -25 ]
-          2) Pressing an operator immediately following = should start a new
-             calculation that operates on the result of the previous evaluation
-             */
-             // check to see if number is valid for operator (eg. can't divide by zero)
-             // a period before an operator is invalid
-             // any number divided by 0 is invalid
-        return{payload:''}
-      }
+  addOperator:{
+    reducer:(state,action)=>{
+     state.inputs = action.payload[0];
+     state.rawInputs = action.payload[1];
+     },
+     prepare:(symbol)=>{
+       return{ payload: putOperator(symbol)}
+     }
+  },
+  // BUG: A non-serializable value 
+  evaluate: {
+    reducer:(state,action)=>{
+      state.result = '1'
+    },
+    preapre: ()=>{
+      return {payload: '1'}
     }
   }
+
+  }
 });
+
+
+/*
+
+  2) Pressing an operator immediately following = should start a new
+     calculation that operates on the result of the previous evaluation
+     */
+     // check to see if number is valid for operator (eg. can't divide by zero)
+
+     // any number divided by 0 is invalid

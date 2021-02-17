@@ -20,7 +20,7 @@ class Digits extends Component {
           <TouchableOpacity
               key={'digits' + i +u}
               style={styles.digits}
-              onPress={
+              onPress={(value === '=')? this.props.evaluate :
                 ()=>this.props.addDigit(value)
               }
               >
@@ -44,7 +44,8 @@ const mapDispatchToProps = (dispatch) => {
     point it to the actionCreator/callbak you wish to use.
   */
   return bindActionCreators({
-    addDigit: calculatorSlice.actions.addDigit
+    addDigit: calculatorSlice.actions.addDigit,
+    evaluate: calculatorSlice.actions.evaluate
   },dispatch)
 };
 
