@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
   rightText:{
     justifyContent: 'center',
     alignItems: 'flex-end',
-
   },
   displayText:{
     padding: 20,
@@ -37,6 +36,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     fontWeight: 'bold',
     backgroundColor: 'brown',
+    padding: 15,
   },
   numbers:{
     flex: 4,

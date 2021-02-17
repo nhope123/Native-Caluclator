@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { store } from './store.js';
+import {validNumber} from './logics.js';
 
 export const calculatorSlice = createSlice({
   name: 'calculator',
@@ -16,49 +17,57 @@ export const calculatorSlice = createSlice({
       this action to the reducer and the prepare acts as the action
       https://redux-toolkit.js.org/api/createSlice#reducers
       */
-    addDigit: {
-      reducer: (state, action) => {
-        state.inputs += action.payload
+    /*
+      I believe once you've memtioned payload in preapre you have to do it for
+      all reducers or else it gives a 'non-serialized value' error
+    */
+
+    // 3) results should have atleast 4 decimal point precision
+    clear: {
+      reducer:(state,action) => {
+      state.inputs = action.payload;
+      state.result = action.payload;
+      state.rawInputs = action.payload;
       },
-      prepare: (digit) => {
-        // let currentState = store.getState();
-        // let inputs = currentState.inputs;
-        // inputs += digit
-
-        // if (passValidation())
-        // if digit passes validation, add it to inputs, if not, do nothing
-        // 5-*6
-        // 
-        // 
-        // if digit is a period, check to see that there's only one period
-        // check to see if number is valid for operator (eg. can't divide by zero)
-
-        // if digit passed in is !== 0, overwrite with digit
-        // if first digit is a number, and the next digit is a number, add the number to it
-        // if the first digit is a 0, and the next input is a period, leave it
-
-        // raw inputs - store value until the operator comes
-
-        // a period before an operator is invalid
-
-        // any number divided by 0 is invalid
-
-        return { payload: digit };
+      prepare: ()=>{
+        return {payload: '0'}
       }
     },
-    clear: (state) => {
-      state.inputs = '0';
-      state.results = '0';
-      state.rawInputs = '0';
+    addDigit: {
+      reducer: (state, action) => {
+        state.inputs = action.payload[0];
+        state.rawInputs = action.payload[1];
+      },
+      prepare: (digit) => {
+        return { payload: validNumber(digit)};
+      }
     },
     delete: {
       reducer: (state, action) => {
         state.inputs = action.payload
       },
       prepare: () => {
+        // BUG: when when we delete period must delete both rawData and display
         let currentState = store.getState();
+        console.log(currentState);
         currentState = currentState.inputs.substring(0, currentState.inputs.length - 1);
         return { payload: (currentState.length < 1) ? '0' : currentState }
+      }
+    },
+    addOperator:{
+      reducer:(state,action)=>{},
+      preapre:(symbol)=>{
+        /*
+          1) If 2 or more operators are entered consecutively, the operation
+             performed should be the last operator entered (excluding the
+             negative (-) sign). eg [ 5 + * 7 = 35 ( 5 * 7) ] [ 5 * - 5 = -25 ]
+          2) Pressing an operator immediately following = should start a new
+             calculation that operates on the result of the previous evaluation
+             */
+             // check to see if number is valid for operator (eg. can't divide by zero)
+             // a period before an operator is invalid
+             // any number divided by 0 is invalid
+        return{payload:''}
       }
     }
   }

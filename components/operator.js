@@ -7,7 +7,7 @@ import styles from './../styles/style.js';
 import { calculatorSlice } from './../redux/calculatorSlice';
 
 // Declare variables
-const operators = ['C', 'Del', '/', '*', '-', '+'];
+export const operators = ['C', 'Del', '/', '*', '-', '+'];
 let operatorButtons = [];
 
 class Operators extends Component {
@@ -15,7 +15,7 @@ class Operators extends Component {
     operators.forEach((item, i) => {
       let callback = (item === 'C') ? this.props.reset :
         (item === 'Del') ? this.props.delete :
-          () => { this.props.addDigit(item) }
+          () => { this.props.addOperator(item) }
       operatorButtons.push(
         <TouchableOpacity
           key={'operators' + i}
@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({
     reset: calculatorSlice.actions.clear,
     delete: calculatorSlice.actions.delete,
-    addDigit: calculatorSlice.actions.addDigit
+    addOperator: calculatorSlice.actions.addOperator
   }, dispatch)
 };
 
