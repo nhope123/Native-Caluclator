@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { store } from './store.js';
-import {validNumber, putOperator, remove} from './logics.js';
+import {validNumber, putOperator, remove,calculate} from './logics.js';
 
 export const calculatorSlice = createSlice({
   name: 'calculator',
@@ -39,7 +39,6 @@ export const calculatorSlice = createSlice({
         state.rawInputs = action.payload[1];
       },
       prepare: (digit) => {
-        console.log('addDigit action');
         return { payload: validNumber(digit)};
       }
     },
@@ -52,7 +51,7 @@ export const calculatorSlice = createSlice({
         return {payload: remove()}
       }
     },
-  addOperator:{
+    addOperator:{
     reducer:(state,action)=>{
      state.inputs = action.payload[0];
      state.rawInputs = action.payload[1];
@@ -61,16 +60,16 @@ export const calculatorSlice = createSlice({
        return{ payload: putOperator(symbol)}
      }
   },
-  // BUG: A non-serializable value 
-  evaluate: {
-    reducer:(state,action)=>{
-      state.result = '1'
-    },
-    preapre: ()=>{
-      return {payload: '1'}
+    evaluate: {
+      reducer:(state,action)=>{
+        state.inputs = action.payload[0];
+        state.rawInputs = action.payload[1];
+        state.result = action.payload[2];
+      },
+      prepare: ()=>{
+        return {payload: calculate()}
+      }
     }
-  }
-
   }
 });
 
